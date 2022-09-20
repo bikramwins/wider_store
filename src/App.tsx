@@ -2,15 +2,21 @@ import "./App.css";
 import styled from "styled-components";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/dashboard/Dashboard";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { ROUTE_PATHS } from "./utils/routesPath";
+import Products from "./components/products";
+import Orders from "./components/orders";
+
 function App() {
   return (
-    <Router>
-      <Container>
-        <Sidebar />
-        <Dashboard />
-      </Container>
-    </Router>
+    <Container>
+      <Sidebar />
+      <Routes>
+        <Route path={ROUTE_PATHS.HOME} element={<Dashboard />} />
+        <Route path={ROUTE_PATHS.PRODUCTS} element={<Products />} />
+        <Route path={ROUTE_PATHS.ORDERS} element={<Orders />} />
+      </Routes>
+    </Container>
   );
 }
 

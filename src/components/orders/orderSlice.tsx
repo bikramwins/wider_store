@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { type } from "os";
 import { RootState } from "../../redux/store";
 
 type Order = {

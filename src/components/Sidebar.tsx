@@ -1,11 +1,12 @@
-import React from "react";
 import styled from "styled-components";
 import { RiHomeLine, RiFileCopyLine } from "react-icons/ri";
 import { FaWallet } from "react-icons/fa";
-import { AiOutlinePieChart } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 import Badge from "./Badge";
 import AvatarImage from "../assets/avatarImage.jpg";
 import { colors } from "../utils";
+import { ROUTE_PATHS } from "../utils/routesPath";
+
 function Sidebar() {
   return (
     <Container>
@@ -16,21 +17,17 @@ function Sidebar() {
       </ProfileContainer>
       <LinksContainer>
         <Links>
-          <Link>
+          <Link to={ROUTE_PATHS.HOME}>
             <RiHomeLine />
             <h3>Dashboard</h3>
           </Link>
-          <Link>
+          <Link to={ROUTE_PATHS.PRODUCTS}>
             <RiFileCopyLine />
             <h3>Products</h3>
           </Link>
-          <Link>
+          <Link to={ROUTE_PATHS.ORDERS}>
             <FaWallet />
             <h3>Orders</h3>
-          </Link>
-          <Link>
-            <AiOutlinePieChart />
-            <h3>Reports</h3>
           </Link>
         </Links>
         <ContactContainer>
@@ -92,7 +89,7 @@ const Links = styled.ul`
   height: 60%;
 `;
 
-const Link = styled.li`
+const Link = styled(NavLink)`
   margin-left: 10%;
   margin-bottom: 2rem;
   display: flex;
@@ -101,10 +98,13 @@ const Link = styled.li`
   cursor: pointer;
   h3 {
     font-weight: 300;
+    display: inline;
+    padding-left: 12px;
   }
   svg {
     font-size: 1.1rem;
     margin-top: 3%;
+    display: inline;
   }
 `;
 

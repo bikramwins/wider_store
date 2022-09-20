@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { Modal, ModalList } from "./BaseModal";
 import { Button } from "./orders/PlaceOrder";
+
 function Navbar() {
   const [openOrderModal, setOpenOrderModal] = useState(false);
   return (
@@ -12,7 +13,6 @@ function Navbar() {
         setShowModal={setOpenOrderModal}
         title="Add New Product"
       />
-
       <NavbarContainer>
         <Text>
           Good morning,

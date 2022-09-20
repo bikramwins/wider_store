@@ -17,6 +17,7 @@ const Background = styled.div<any>`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 `;
 
 const ModalWrapper = styled.div<any>`
@@ -30,7 +31,7 @@ const ModalWrapper = styled.div<any>`
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 10;
+  z-index: 1000;
   border-radius: 10px;
 `;
 
