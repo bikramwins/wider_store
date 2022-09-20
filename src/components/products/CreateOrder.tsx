@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useAppDispatch } from "../../redux/store";
 import { colors } from "../../utils";
 import Input, { MoneyInput, TextAreaInput } from "../Input";
-import { addNewProduct } from "../products/productSlice";
+import { addNewProduct } from "./productSlice";
 import { useNavigate } from "react-router-dom";
 export const Button = styled.button`
   background: ${colors.themeColor};
@@ -26,7 +26,7 @@ const INITIAL_PRODUCT = {
   imageUrl: "",
 };
 
-const AddNewProduct = ({ close }: { close: Function }) => {
+const CreateOrder = ({ close }: { close: Function }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [productDetails, setProductDetails] = useState(INITIAL_PRODUCT);
@@ -124,4 +124,4 @@ const AddNewProduct = ({ close }: { close: Function }) => {
   );
 };
 
-export default AddNewProduct;
+export default CreateOrder;

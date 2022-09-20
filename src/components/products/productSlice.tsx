@@ -3,7 +3,7 @@ import { type } from "os";
 import { RootState } from "../../redux/store";
 
 type Product = {
-  id: "";
+  id: number;
   name: string;
   sku: string;
   price: number;
@@ -17,7 +17,7 @@ export interface ProductState {
 const initialState: ProductState = {
   products: [],
   selectedProduct: {
-    id: "",
+    id: Date.now(),
     name: "",
     sku: "",
     price: 0,
@@ -31,7 +31,7 @@ export const productSlice = createSlice({
     addNewProduct: (state, { payload }) =>
       ({
         ...state,
-        selectedProduct: [...state.products, payload],
+        products: [...state.products, payload],
       } as any),
 
     deleteProduct: (state, { payload }) => ({

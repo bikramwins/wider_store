@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { colors } from "../utils";
+import AddNewProduct from "./orders/AddNewProduct";
 
 export const ModalList = Object.freeze({ AddNewProduct: "AddNewProduct" });
 
@@ -22,6 +23,7 @@ const ModalWrapper = styled.div<any>`
   width: auto;
   min-width: 400px;
   height: 500px;
+  overflow-y: scroll;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
@@ -40,12 +42,16 @@ const Title = styled.div`
 
 const Header = styled.div`
   display: flex;
-  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
   border-bottom: 1px solid ${colors.grey6};
+  z-index: 100;
+  background: #fff;
   height: 30px;
+  position: sticky;
+  top: 0;
+  left: 0;
 `;
 
 const ModalContent = styled.div`
@@ -62,7 +68,6 @@ const ModalContent = styled.div`
 
   button {
     padding: 10px 24px;
-    background: #141414;
     color: #fff;
     border: none;
   }
@@ -79,15 +84,13 @@ const CloseModalButton = styled(MdClose)`
   z-index: 10;
 `;
 
-const HelloDiv = ({}: any) => <h1>Hello</h1>;
-
 const RenderModal = ({ modalType, title, close }: any) => {
   return (
     <>
       {(() => {
         switch (modalType) {
           case ModalList.AddNewProduct:
-            return <HelloDiv close={close} />;
+            return <AddNewProduct close={close} />;
           default:
             return null;
         }
@@ -108,9 +111,12 @@ export const Modal = ({ open, modalType, setShowModal, title }: any) => {
   });
 
   const closeModal = (e: any) => {
-    if (modalRef.current === e.target) {
-      setShowModal(false);
+    if (modalRef.current === e?.target) {
     }
+  };
+
+  const close = () => {
+    setShowModal(false);
   };
 
   const keyPress = useCallback(
@@ -142,7 +148,7 @@ export const Modal = ({ open, modalType, setShowModal, title }: any) => {
                 />
               </Header>
               <ModalContent>
-                <RenderModal modalType={modalType} />
+                <RenderModal close={close} modalType={modalType} />
               </ModalContent>
             </ModalWrapper>
           </animated.div>

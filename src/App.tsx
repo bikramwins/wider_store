@@ -2,14 +2,15 @@ import "./App.css";
 import styled from "styled-components";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./components/dashboard/Dashboard";
-import { Modal } from "./components/BaseModal";
-import { useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 function App() {
   return (
-    <Container>
-      <Sidebar />
-      <Dashboard />
-    </Container>
+    <Router>
+      <Container>
+        <Sidebar />
+        <Dashboard />
+      </Container>
+    </Router>
   );
 }
 
