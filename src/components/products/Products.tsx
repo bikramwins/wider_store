@@ -2,37 +2,32 @@ import React from "react";
 import styled from "styled-components";
 import AvatarImage from "../../assets/avatarImage2.jpg";
 import AvatarImage2 from "../../assets/avatarImage3.jpg";
+import { useAppSelector } from "../../redux/store";
 import { cardShadow, hoverEffect, colors } from "../../utils";
 
 function Products() {
+  const products = useAppSelector((state) => state.productState.products);
+
+  const filteredProducts = products.filter((product, index) => index < 2);
+
   return (
     <YourProducts>
-      <Product>
-        <Avatar>
-          <img src={AvatarImage} alt="" />
-        </Avatar>
-        <Detail>
-          <Title>French fries + Popcorns</Title>
-          <TitleWrapper>
-            <SubTitle>$17</SubTitle>
-            <SubTitle>-</SubTitle>
-            <SubTitle>FRENPOPCORN</SubTitle>
-          </TitleWrapper>
-        </Detail>
-      </Product>
-      <Product>
-        <Avatar>
-          <img src={AvatarImage2} alt="" />
-        </Avatar>
-        <Detail>
-          <Title>Chorizo & mozzarella</Title>
-          <TitleWrapper>
-            <SubTitle>$25</SubTitle>
-            <SubTitle>-</SubTitle>
-            <SubTitle>CHORIZOMOZZ</SubTitle>
-          </TitleWrapper>
-        </Detail>
-      </Product>
+      {filteredProducts.map((product: any) => (
+        <Product key={product.id}>
+          <Avatar>
+            <img src={product?.imageUrl || AvatarImage} alt="" />
+          </Avatar>
+          <Detail>
+            <Title>{product.name}</Title>
+            <TitleWrapper>
+              <SubTitle>${product.price}</SubTitle>
+              <SubTitle>-</SubTitle>
+              <SubTitle>{product.sku}</SubTitle>
+            </TitleWrapper>
+          </Detail>
+        </Product>
+      ))}
+
       <AllProducts>See all products</AllProducts>
     </YourProducts>
   );
@@ -70,6 +65,7 @@ const Avatar = styled.div`
 `;
 const Detail = styled.div`
   margin-left: 1rem;
+  width: 100%;
 `;
 const Title = styled.h3`
   font-weight: 500;

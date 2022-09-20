@@ -18,7 +18,7 @@ export const Button = styled.button`
   width: 100%;
 `;
 
-const INITIAL_PRODUCT = {
+const INITIAL_ORDER = {
   name: "",
   sku: "",
   price: null,
@@ -29,16 +29,16 @@ const INITIAL_PRODUCT = {
 const CreateOrder = ({ close }: { close: Function }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [productDetails, setProductDetails] = useState(INITIAL_PRODUCT);
+  const [orderDetails, setOrderDetails] = useState(INITIAL_ORDER);
 
   const onChangeHandler = (event: any) => {
     const { value, name } = event.target;
-    setProductDetails((old) => ({ ...old, [name]: value }));
+    setOrderDetails((old) => ({ ...old, [name]: value }));
   };
 
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
-    dispatch(addNewProduct(productDetails));
+    dispatch(addNewProduct(orderDetails));
     // navigate("/products");
   };
 
@@ -57,7 +57,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
           required
           placeholder="Product Name"
           name="name"
-          value={productDetails.name}
+          value={orderDetails.name}
           width="300px"
           margin="30px 0 0 0"
           onChange={onChangeHandler}
@@ -66,7 +66,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
       <div style={{ margin: "20px 0" }}>
         <Input
           name="sku"
-          value={productDetails.sku}
+          value={orderDetails.sku}
           required
           width="300px"
           margin="30px 0 0 0"
@@ -77,7 +77,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
       <div style={{ margin: "20px 0" }}>
         <MoneyInput
           name="price"
-          value={productDetails.price}
+          value={orderDetails.price}
           required
           width="275px"
           margin="30px 0 0 0"
@@ -90,7 +90,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
         <TextAreaInput
           required
           name="description"
-          value={productDetails.description}
+          value={orderDetails.description}
           width="300px"
           margin="30px 0 0 0"
           placeholder="description"
@@ -100,7 +100,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
       <div style={{ margin: "20px 0" }}>
         <Input
           name="imageUrl"
-          value={productDetails.imageUrl}
+          value={orderDetails.imageUrl}
           required
           width="300px"
           margin="30px 0 0 0"
@@ -118,7 +118,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
           background: "white",
         }}
       >
-        <Button type="submit">Add New Product</Button>
+        <Button type="submit">Create Order</Button>
       </div>
     </form>
   );

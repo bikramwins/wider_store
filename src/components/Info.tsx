@@ -2,16 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import Badge from "./Badge";
 import { cardShadow, hoverEffect, colors } from "../utils";
+import { useAppSelector } from "../redux/store";
 function Info() {
+  const products = useAppSelector((state) => state.productState.products);
+  // const orders = useAppSelector((state) => state.orderState.products);
+
   return (
     <InfoCard>
       <Card>
         <CardContent>
           <Row>
-            <Digit>27</Digit>
+            {/* <Digit>{orders.length}</Digit> */}
             <InfoContainer>
               <Title>Orders</Title>
-              <SubTitle>In top 20%</SubTitle>
+              {/* <SubTitle>In top 20%</SubTitle> */}
             </InfoContainer>
           </Row>
         </CardContent>
@@ -19,10 +23,10 @@ function Info() {
       <Card>
         <CardContent>
           <Row>
-            <Digit>32</Digit>
+            <Digit>{products.length}</Digit>
             <InfoContainer>
               <Title>Prodcuts</Title>
-              <SubTitle>8 this month</SubTitle>
+              {/* <SubTitle>{}</SubTitle> */}
             </InfoContainer>
           </Row>
           <Row justify>

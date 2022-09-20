@@ -39,7 +39,7 @@ const AddNewProduct = ({ close }: { close: Function }) => {
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
     dispatch(addNewProduct(productDetails));
-    // navigate("/products");
+    close();
   };
 
   return (

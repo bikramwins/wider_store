@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { IoStatsChart } from "react-icons/io5";
 import { colors, hoverEffect } from "../utils";
+import { useAppSelector } from "../redux/store";
 
 function TotalOrdersCard() {
+  const products = useAppSelector((state) => state.productState.products);
   return (
     <EarningsCard>
       <CardContent>

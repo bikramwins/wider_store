@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Navbar from "../Navbar";
 import TotalOrdersCard from "../Earnings";
@@ -7,9 +6,8 @@ import PlaceOrderContainer from "../orders/PlaceOrder";
 import TopProduct from "../TopProduct";
 import Products from "../products/Products";
 import Orders from "../orders/Orders";
-import { Modal } from "../BaseModal";
-
 function Dashboard() {
+  
   return (
     <Container>
       <Navbar />
@@ -20,7 +18,7 @@ function Dashboard() {
             <Info />
           </ColumnOne1>
           <ColumnTwo1>
-            <TitleText>New Products</TitleText>
+            <TitleText>Products</TitleText>
             <Products />
           </ColumnTwo1>
         </SectionOne>

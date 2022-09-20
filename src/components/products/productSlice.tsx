@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { type } from "os";
 import { RootState } from "../../redux/store";
+import products from "../../mockdata/products.json";
 
 type Product = {
   id: number;
   name: string;
   sku: string;
   price: number;
+  imageUrl: string;
 };
 
 export interface ProductState {
@@ -15,12 +16,13 @@ export interface ProductState {
 }
 
 const initialState: ProductState = {
-  products: [],
+  products,
   selectedProduct: {
     id: Date.now(),
     name: "",
     sku: "",
     price: 0,
+    imageUrl: "",
   },
 };
 
@@ -31,7 +33,7 @@ export const productSlice = createSlice({
     addNewProduct: (state, { payload }) =>
       ({
         ...state,
-        products: [...state.products, payload],
+        products: [payload, ...state.products],
       } as any),
 
     deleteProduct: (state, { payload }) => ({

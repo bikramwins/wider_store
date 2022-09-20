@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Banana Bread",
+    "description,": "Banana bread is a type of bread made from mashed bananas.[1] It is often a moist, sweet; however there are some banana bread recipes that are yeast raised breads.",
+    "sku": "BANANA123",
+    "price": 5000,
+    "imageUrl": "https://natashaskitchen.com/wp-content/uploads/2018/05/Banana-Bread-Recipe-6.jpg"
+  },
+  {
+    "id": 1,
+    "name": "Cappuccino",
+    "description": "A cappuccino is the perfect balance of espresso, steamed milk and foam. This coffee is all about the structure and the even splitting of all elements into equal thirds.",
+    "sku": "CAPPUCAM123",
+    "price": 5000,
+    "imageUrl": "https://img.freepik.com/free-photo/big-sandwich-hamburger-with-juicy-beef-burger-cheese-tomato-red-onion-wooden-table_2829-19631.jpg?w=2000"
+  }
+]
