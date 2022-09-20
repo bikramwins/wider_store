@@ -27,10 +27,9 @@ export const orderSlice = createSlice({
   name: "ordersState",
   initialState,
   reducers: {
-    addNewOrder: (state, { payload }) =>
-      ({
+    addNewOrder: (state, { payload }) => ({
         ...state,
-        selectedOrder: [...state.orders, payload],
+        orders: [...state.orders, { id: Date.now(), ...payload }],
       } as any),
 
     createOrder: (state, { payload }) => ({

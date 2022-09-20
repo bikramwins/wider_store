@@ -12,7 +12,7 @@ const TopBar = () => {
     <Container>
       <Modal
         open={openModal}
-        modalType={ModalList.AddNewProduct}
+        modalType={ModalList.CreateOrder}
         setShowModal={setOpenModal}
         title="Create Order"
       />
@@ -21,8 +21,9 @@ const TopBar = () => {
   );
 };
 function Orders() {
-
   const { orders = [] } = useSelector((state: any) => state?.orderState);
+  console.log("orders ", orders);
+  
   const editHandler = () => {};
   const viewHandler = () => {};
   const deleteHandler = () => {};
@@ -36,38 +37,29 @@ function Orders() {
             <Table.TR>
               <Table.TH>Order ID</Table.TH>
               <Table.TH>Customer Name</Table.TH>
+              <Table.TH>Customer Phone</Table.TH>
               <Table.TH>Order Amount</Table.TH>
-              <Table.TH>Discount</Table.TH>
-              <Table.TH>Total Amount</Table.TH>
+              <Table.TH>Status</Table.TH>
               <Table.TH>Action</Table.TH>
             </Table.TR>
           </Table.Head>
           <Table.Body>
             {orders?.map(
-              (order: {
-                id: any;
-                customerName: any;
-                amount: any;
-                discount: any;
-                totalAmount: any;
-              }) => {
+              (order: any) => {
                 return (
-                  <Table.TR>
+                  <Table.TR key ={order.id}>
                     <Table.TD>{order.id}</Table.TD>
                     <Table.TD>{order.customerName}</Table.TD>
-                    <Table.TD>{order.amount}</Table.TD>
-                    <Table.TD>{order.discount}</Table.TD>
-                    <Table.TD>{order.totalAmount}</Table.TD>
+                    <Table.TD>{order.customerPhone}</Table.TD>
+                    <Table.TD>${order.total}</Table.TD>
+                    <Table.TD>Paid</Table.TD>
                     <Table.TD>
-                      <IconContainer onClick={() => editHandler()}>
-                        {ACTION_ICONS.EDIT}
-                      </IconContainer>
                       <IconContainer onClick={() => viewHandler()}>
                         {ACTION_ICONS.VIEW}
                       </IconContainer>
-                      <IconContainer fillColor = "red" onClick={() => deleteHandler()}>
+                      {/* <IconContainer fillColor = "red" onClick={() => deleteHandler()}>
                         {ACTION_ICONS.DELETE}
-                      </IconContainer>
+                      </IconContainer> */}
                     </Table.TD>
                   </Table.TR>
                 );

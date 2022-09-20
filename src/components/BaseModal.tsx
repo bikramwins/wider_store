@@ -3,9 +3,10 @@ import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { colors } from "../utils";
-import AddNewProduct from "./orders/AddNewProduct";
+import AddNewProduct from "./products/AddNewProduct";
+import CreateOrder from "./orders/CreateOrder";
 
-export const ModalList = Object.freeze({ AddNewProduct: "AddNewProduct" });
+export const ModalList = Object.freeze({ AddNewProduct: "AddNewProduct", CreateOrder: "CreateOrder" });
 
 const Background = styled.div<any>`
   width: 100%;
@@ -92,6 +93,8 @@ const RenderModal = ({ modalType, title, close }: any) => {
         switch (modalType) {
           case ModalList.AddNewProduct:
             return <AddNewProduct close={close} />;
+          case ModalList.CreateOrder:
+            return <CreateOrder close={close} />;
           default:
             return null;
         }
