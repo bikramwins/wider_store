@@ -1,0 +1,70 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Banana Bread",
+      "description,": "Banana bread is a type of bread made from mashed bananas.[1] It is often a moist, sweet; however there are some banana bread recipes that are yeast raised breads.",
+      "SKU": "BAN123",
+      "amount": 5000
+    },
+    {
+      "id": 1,
+      "name": "Cappuccino",
+      "description": "A cappuccino is the perfect balance of espresso, steamed milk and foam. This coffee is all about the structure and the even splitting of all elements into equal thirds.",
+      "SKU": "CAPPU123",
+      "amount": 5000
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "quantity": 2,
+      "amount": 12000,
+      "createdAt": 1663159769,
+      "customerName": "Mike Hussey",
+      "customerPhone": "9804367674",
+      "products": [
+        {
+          "id": 1,
+          "name": "Banana Bread",
+          "description,": "Banana bread is a type of bread made from mashed bananas.[1] It is often a moist, sweet; however there are some banana bread recipes that are yeast raised breads.",
+          "SKU": "BAN123",
+          "amount": 5000
+        },
+        {
+          "id": 2,
+          "name": "Cappuccino",
+          "description": "A cappuccino is the perfect balance of espresso, steamed milk and foam. This coffee is all about the structure and the even splitting of all elements into equal thirds.",
+          "SKU": "CAPPU123",
+          "amount": 7000
+        }
+      ]
+    },
+
+    {
+      "id": 2,
+      "quantity": 1,
+      "amount": 5000,
+      "createdAt": 1663073369,
+      "customerName": "AB Devilliers",
+      "customerPhone": "9804367677",
+      "products": [
+        {
+          "id": 1,
+          "name": "Banana Bread",
+          "description,": "Banana bread is a type of bread made from mashed bananas.[1] It is often a moist, sweet; however there are some banana bread recipes that are yeast raised breads.",
+          "SKU": "BAN123",
+          "amount": 5000
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "name": "Bikram",
+      "role": "admin",
+      "email": "bikramwins@gmail.com",
+      "password": ""
+    }
+  ]
+}
