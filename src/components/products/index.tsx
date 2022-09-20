@@ -5,6 +5,8 @@ import { ACTION_ICONS, IconContainer, Table, TableWrapper } from "../table";
 import { useState } from "react";
 import { Button } from "../orders/PlaceOrder";
 import { Modal, ModalList } from "../BaseModal";
+import { useAppDispatch } from "../../redux/store";
+import { deleteProduct } from "./productSlice";
 
 const TopBar = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -22,11 +24,25 @@ const TopBar = () => {
 };
 
 function Products() {
+  const dispatch = useAppDispatch();
   const { products = [] } = useSelector((state: any) => state?.productState);
+  const [productId, setProductId] = useState("");
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openViewModal, setOpenViewModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  const editHandler = () => {};
-  const viewHandler = () => {};
-  const deleteHandler = () => {};
+  const editHandler = (id: any) => {
+    setProductId(id);
+    setOpenEditModal(true);
+  };
+  const viewHandler = (id: any) => {
+    setProductId(id);
+    setOpenViewModal(true);
+  };
+  const deleteHandler = (id: any) => {
+    setProductId(id);
+    setOpenDeleteModal(true);
+  };
 
   return (
     <>
@@ -38,7 +54,7 @@ function Products() {
               <Table.TH>Product ID</Table.TH>
               <Table.TH>Name</Table.TH>
               <Table.TH>SKU</Table.TH>
-              <Table.TH>Price</Table.TH>
+              <Table.TH>Price($)</Table.TH>
               <Table.TH>Description</Table.TH>
               <Table.TH>Action</Table.TH>
             </Table.TR>
@@ -62,15 +78,15 @@ function Products() {
                     </DescriptionWrapper>
                   </Table.TD>
                   <Table.TD>
-                    <IconContainer onClick={() => editHandler()}>
+                    <IconContainer onClick={() => editHandler(product.id)}>
                       {ACTION_ICONS.EDIT}
                     </IconContainer>
-                    <IconContainer onClick={() => viewHandler()}>
+                    <IconContainer onClick={() => viewHandler(product.id)}>
                       {ACTION_ICONS.VIEW}
                     </IconContainer>
                     <IconContainer
                       fillColor="#ff0f009e"
-                      onClick={() => deleteHandler()}
+                      onClick={() => deleteHandler(product.id)}
                     >
                       {ACTION_ICONS.DELETE}
                     </IconContainer>
@@ -82,6 +98,30 @@ function Products() {
         </Table>
         {products.length === 0 && <NoData message="Currently No Products !!" />}
       </TableWrapper>
+      <Modal
+        open={openEditModal}
+        modalType={ModalList.EditProduct}
+        setShowModal={setOpenEditModal}
+        productId={productId}
+        title="Edit Product"
+      />
+      <Modal
+        open={openViewModal}
+        modalType={ModalList.ViewProduct}
+        setShowModal={setOpenViewModal}
+        productId={productId}
+        title="Product Details"
+      />
+      <Modal
+        open={openDeleteModal}
+        modalType={ModalList.DeleteProductModal}
+        setShowModal={setOpenDeleteModal}
+        onConfirm={() => {
+          dispatch(deleteProduct(productId));
+          setOpenDeleteModal(false);
+        }}
+        header={`Are you sure you want to delete the product`}
+      />
     </>
   );
 }
@@ -106,9 +146,8 @@ const Img = styled.img`
   border-radius: 3.5rem;
 `;
 
-
 const Text = styled.div`
-  padding-left: 10px
+  padding-left: 10px;
 `;
 
 const Container = styled.div`

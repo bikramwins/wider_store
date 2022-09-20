@@ -15,7 +15,7 @@ function Navbar() {
       />
       <NavbarContainer>
         <Text>
-          Good morning,
+          Hi,
           <span>Bikram</span>
         </Text>
         <InputContainer>

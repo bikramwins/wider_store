@@ -12,7 +12,7 @@ const FooterStyle = styled.div`
 `;
 
 const HeaderStyle = styled.div<any>`
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: ${colors.grey3};
   margin: ${(props: any) =>
     props.top ? "0px 0px 10px 0px" : "30px 0px 10px 0px"};
@@ -28,7 +28,8 @@ const InputStyle = styled.input<any>`
   box-sizing: border-box;
 
   &:focus {
-    border: 1px solid ${colors.grey5};
+    border: ${(props) =>
+      props.readOnly ? "unset" : `1px solid ${colors.grey5}`};
   }
 `;
 
@@ -107,6 +108,7 @@ export const TextAreaInput: React.FC<any> = ({
   required,
   minLength,
   note,
+  readOnly,
 }) => {
   return (
     <InputContainer>
@@ -120,6 +122,7 @@ export const TextAreaInput: React.FC<any> = ({
         onChange={onChange || null}
         required={required}
         minLength={minLength}
+        readOnly={readOnly || null}
       />
       {footer && <FooterStyle>{footer}</FooterStyle>}
       {note && <FooterStyle>{note}</FooterStyle>}

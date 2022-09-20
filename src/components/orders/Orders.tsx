@@ -1,43 +1,36 @@
 import styled from "styled-components";
 import Badge from "../Badge";
-import AvatarImage from "../../assets/avatarImage5.jpg";
-import AvatarImage2 from "../../assets/avatarImage6.jpg";
+import AvatarImage2 from "../../assets/avatarImage2.jpg";
 import { cardShadow, hoverEffect } from "../../utils";
+import { useAppSelector } from "../../redux/store";
 
 function Orders() {
+  const orders = useAppSelector((state) => state.orderState.orders);
+  const filteredOrders: any = orders.filter((order:any, index:number) => index < 2);
+  const firstItem = filteredOrders.product?.find(
+    (product: any, index: number) => index === 0
+  );
+
   return (
     <OrdersContainer>
       <CardContent>
-        <Order>
-          <Info>
-            <Avatar>
-              <img src={AvatarImage} alt="" />
-            </Avatar>
-            <TextContainer>
-              <Title>Alexander Williams</Title>
-              <SubTitle>+1(567) 679-5647</SubTitle>
-            </TextContainer>
-          </Info>
-          <Container>
-            <Badge content="Paid" paid />
-            <Price>$ 1,200.87</Price>
-          </Container>
-        </Order>
-        <Order>
-          <Info>
-            <Avatar>
-              <img src={AvatarImage2} alt="" />
-            </Avatar>
-            <TextContainer>
-              <Title>John Philips</Title>
-              <SubTitle>+1(567) 679-5746</SubTitle>
-            </TextContainer>
-          </Info>
-          <Container>
-            <Badge content="Pending" late />
-            <Price>$ 1,200.87</Price>
-          </Container>
-        </Order>
+        {filteredOrders.map((order: any) => (
+          <Order>
+            <Info>
+              <Avatar>
+                <img src={firstItem?.imageUrl || AvatarImage2} alt="" />
+              </Avatar>
+              <TextContainer>
+                <Title>{order.customerName}</Title>
+                <SubTitle>{order.customerPhone}</SubTitle>
+              </TextContainer>
+            </Info>
+            <Container>
+              <Badge content="Paid" paid  glow/>
+              <Price>${order.amount}</Price>
+            </Container>
+          </Order>
+        ))}
       </CardContent>
     </OrdersContainer>
   );

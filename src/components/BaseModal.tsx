@@ -5,8 +5,20 @@ import { MdClose } from "react-icons/md";
 import { colors } from "../utils";
 import AddNewProduct from "./products/AddNewProduct";
 import CreateOrder from "./orders/CreateOrder";
+import ConfirmModal from "./ConfirmModal";
+import ProductDetails from "./products/ProductDetails";
+import OrderDetails from "./orders/OrderDetails";
 
-export const ModalList = Object.freeze({ AddNewProduct: "AddNewProduct", CreateOrder: "CreateOrder" });
+export const ModalList = Object.freeze({
+  AddNewProduct: "AddNewProduct",
+  EditProduct: "EditProduct",
+  ViewProduct: "ViewProduct",
+  CreateOrder: "CreateOrder",
+  ConfirmModal: "ConfirmModal",
+  OrderDetails: "OrderDetails",
+  DeleteProductModal: "DeleteProductModal",
+  DeleteOrderModal:"DeleteOrderModal"
+});
 
 const Background = styled.div<any>`
   width: 100%;
@@ -24,7 +36,8 @@ const Background = styled.div<any>`
 const ModalWrapper = styled.div<any>`
   width: auto;
   min-width: 400px;
-  height: 500px;
+  height: auto;
+  max-height: 500px;
   overflow-y: scroll;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
@@ -86,7 +99,7 @@ const CloseModalButton = styled(MdClose)`
   z-index: 10;
 `;
 
-const RenderModal = ({ modalType, title, close }: any) => {
+const RenderModal = ({ modalType, title, close, ...rest }: any) => {
   return (
     <>
       {(() => {
@@ -94,7 +107,18 @@ const RenderModal = ({ modalType, title, close }: any) => {
           case ModalList.AddNewProduct:
             return <AddNewProduct close={close} />;
           case ModalList.CreateOrder:
-            return <CreateOrder close={close} />;
+            return <CreateOrder {...rest} close={close} />;
+          case ModalList.EditProduct:
+            return <AddNewProduct {...rest} close={close} />;
+          case ModalList.ViewProduct:
+            return <ProductDetails {...rest} close={close} />;
+          case ModalList.OrderDetails:
+            return <OrderDetails {...rest} close={close} />;
+          case ModalList.DeleteProductModal:
+            return <ConfirmModal {...rest} close={close} />;
+          case ModalList.DeleteOrderModal:
+            return <ConfirmModal {...rest} close={close} />;
+
           default:
             return null;
         }
@@ -103,7 +127,13 @@ const RenderModal = ({ modalType, title, close }: any) => {
   );
 };
 
-export const Modal = ({ open, modalType, setShowModal, title }: any) => {
+export const Modal = ({
+  open,
+  modalType,
+  setShowModal,
+  title,
+  ...rest
+}: any) => {
   const modalRef = useRef();
 
   const animation = useSpring({
@@ -152,7 +182,7 @@ export const Modal = ({ open, modalType, setShowModal, title }: any) => {
                 />
               </Header>
               <ModalContent>
-                <RenderModal close={close} modalType={modalType} />
+                <RenderModal close={close} modalType={modalType} {...rest} />
               </ModalContent>
             </ModalWrapper>
           </animated.div>

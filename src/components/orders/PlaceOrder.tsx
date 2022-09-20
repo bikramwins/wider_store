@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FaSlack } from "react-icons/fa";
 import { colors, hoverEffect } from "../../utils";
+import { Modal, ModalList } from "../BaseModal";
 function PlaceOrder() {
+  const [openModal, setOpenModal] = useState(false);
   return (
     <PlaceOrderContainer>
       <CardContent flex={true}>
@@ -15,8 +17,14 @@ function PlaceOrder() {
             <OrderFoot>You'll get product list into modal</OrderFoot>
           </OrderText>
         </Order>
-        <Button>Place Now</Button>
+        <Button onClick={() => setOpenModal(true)}>Place Now</Button>
       </CardContent>
+      <Modal
+        open={openModal}
+        modalType={ModalList.CreateOrder}
+        setShowModal={setOpenModal}
+        title="Create Order"
+      />
     </PlaceOrderContainer>
   );
 }

@@ -7,7 +7,6 @@ import { cardShadow, hoverEffect, colors } from "../../utils";
 
 function Products() {
   const products = useAppSelector((state) => state.productState.products);
-
   const filteredProducts = products.filter((product, index) => index < 2);
 
   return (

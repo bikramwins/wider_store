@@ -1,25 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../redux/store";
+import orders from "../../mockdata/orders.json";
 
-type Order = {
-  id: "";
-  name: string;
-  sku: string;
-  price: number;
-};
-
-export interface OrderState {
-  selectedOrder: Order;
-  orders: Order[];
-}
-
-const initialState: OrderState = {
-  orders: [],
+const initialState: any = {
+  orders: orders as any,
   selectedOrder: {
-    id: "",
+    id: Date.now(),
     name: "",
     sku: "",
-    price: 0,
+    amount: 0,
+    products: [],
   },
 };
 
@@ -27,19 +17,20 @@ export const orderSlice = createSlice({
   name: "ordersState",
   initialState,
   reducers: {
-    addNewOrder: (state, { payload }) => ({
+    createOrder: (state, { payload }) =>
+      ({
         ...state,
-        orders: [...state.orders, { id: Date.now(), ...payload }],
+        orders: [{ id: Date.now(), ...payload }, ...state.orders],
       } as any),
 
-    createOrder: (state, { payload }) => ({
+    deleteOrder: (state, { payload }) => ({
       ...state,
-      orders: state.orders.filter((Order) => Order.id !== payload.id),
+      orders: state.orders.filter((order: any) => order.id !== payload),
     }),
   },
 });
 
-export const { addNewOrder, createOrder } = orderSlice.actions;
+export const { deleteOrder, createOrder } = orderSlice.actions;
 
 export const getOrdersState = (state: RootState) => state;
 

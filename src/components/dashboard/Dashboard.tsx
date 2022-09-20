@@ -7,7 +7,7 @@ import TopProduct from "../TopProduct";
 import Products from "../products/Products";
 import Orders from "../orders/Orders";
 function Dashboard() {
-  
+
   return (
     <Container>
       <Navbar />
@@ -31,7 +31,7 @@ function Dashboard() {
             <PlaceOrderContainer />
           </ColumnOne2>
           <ColumnTwo2>
-            <TitleText>Top Product </TitleText>
+            <TitleText>Top Product(Static) </TitleText>
             <TopProduct />
           </ColumnTwo2>
         </SectionTwo>

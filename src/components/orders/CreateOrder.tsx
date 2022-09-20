@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useAppDispatch } from "../../redux/store";
 import { colors } from "../../utils";
-import Input, { MoneyInput, TextAreaInput } from "../Input";
-import { addNewOrder } from "./orderSlice";
+import Input from "../Input";
+import { createOrder } from "./orderSlice";
 import Select from "react-select";
 import { useSelector } from "react-redux";
-import { ACTION_ICONS, IconContainer, Table, TableWrapper } from "../table";
-import { useNavigate } from "react-router-dom";
 
 export const Button = styled.button`
   background: ${colors.themeColor};
@@ -22,21 +20,12 @@ export const Button = styled.button`
   width: 100%;
 `;
 
-const INITIAL_ORDER = {
-  name: "",
-  sku: "",
-  price: null,
-  description: "",
-  imageUrl: "",
-};
 
-const CreateOrder = ({ close }: { close: Function }) => {
+const CreateOrder = ({ close, ...rest }: { close: Function }) => {
   const dispatch = useAppDispatch();
   const selectInputRef: any = useRef();
-  const [orderDetails, setOrderDetails] = useState(INITIAL_ORDER);
   const { products = [] } = useSelector((state: any) => state.productState);
   const [orderProducts, setOrderProducts] = useState<any>([]);
-
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [orderTotal, setOrderTotal] = useState(0);
   const [customerName, setCustomerName] = useState("");
@@ -52,7 +41,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
 
   useEffect(() => {
     updateOrderTotal();
-  }, [orderProducts]);
+  }, [orderProducts]); // eslint-disable-line
 
   const addMoreProducts = () => {
     if (selectedItem) {
@@ -74,15 +63,21 @@ const CreateOrder = ({ close }: { close: Function }) => {
     setOrderTotal(totalOfOrder);
   };
 
-  const createOrder = () => {
+  const onSubmit = () => {
     const payload = {
       id: Date.now(),
-      products: orderProducts,
-      total: orderTotal,
+      products: products.map((product: any) => {
+    return {
+      ...product,
+      value: product.id,
+      label: product.name,
+    };
+  }),
+      amount: orderTotal,
       customerName,
       customerPhone,
     };
-    dispatch(addNewOrder(payload));
+    dispatch(createOrder(payload));
     close();
   };
 
@@ -127,7 +122,7 @@ const CreateOrder = ({ close }: { close: Function }) => {
           value={selectedItem?.item?.value}
           ref={selectInputRef}
           placeholder="Select Product"
-          onChange={(selected) => {
+          onChange={(selected: any) => {
             setSelectedItem((prevItem: any) => ({
               ...prevItem,
               item: selected,
@@ -158,21 +153,25 @@ const CreateOrder = ({ close }: { close: Function }) => {
           }}
         />
       </div>
-      <button type="button" onClick={() => addMoreProducts()}>
+      <button
+        style={{ background: "#162349" }}
+        type="button"
+        onClick={() => addMoreProducts()}
+      >
         + Add More
       </button>
       <Ol>
-          {orderProducts?.map((item: any) => {
-            return (
-              <LI key={item.item.id}>
-                {item.item.name} (Qty : {item.quantity}) - ${item.total}
-                <RemoveButton type="button" onClick={() => removeItem(item)}>
-                  X
-                </RemoveButton>
-              </LI>
-            );
-          })}
-        </Ol>
+        {orderProducts?.map((item: any) => {
+          return (
+            <LI key={item.item.id}>
+              {item.item.name} (Qty : {item.quantity}) - ${item.total}
+              <RemoveButton type="button" onClick={() => removeItem(item)}>
+                X
+              </RemoveButton>
+            </LI>
+          );
+        })}
+      </Ol>
       <div
         style={{
           padding: "20px 0 40px 0",
@@ -182,12 +181,11 @@ const CreateOrder = ({ close }: { close: Function }) => {
           background: "white",
         }}
       >
-        
         {orderProducts.length > 0 && (
           <TotalContainer>Order Total ${orderTotal}</TotalContainer>
         )}
         {orderProducts.length > 0 && customerName.length && (
-          <Button type="button" onClick={() => createOrder()}>
+          <Button type="button" onClick={() => onSubmit()}>
             Create Order
           </Button>
         )}

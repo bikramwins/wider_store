@@ -5,6 +5,8 @@ import { ACTION_ICONS, IconContainer, Table, TableWrapper } from "../table";
 import { useState } from "react";
 import { Button } from "../orders/PlaceOrder";
 import { Modal, ModalList } from "../BaseModal";
+import { useAppDispatch } from "../../redux/store";
+import { deleteOrder } from "./orderSlice";
 
 const TopBar = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -21,13 +23,22 @@ const TopBar = () => {
   );
 };
 function Orders() {
+  const dispatch = useAppDispatch();
   const { orders = [] } = useSelector((state: any) => state?.orderState);
-  console.log("orders ", orders);
-  
-  const editHandler = () => {};
-  const viewHandler = () => {};
-  const deleteHandler = () => {};
+  const [orderId, setOrderId] = useState("");
+  const [openViewModal, setOpenViewModal] = useState(false);
+  const [productId, setProductId] = useState("");
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
+  // const editHandler = () => {};
+  const viewHandler = (id: any) => {
+    setOrderId(id);
+    setOpenViewModal(true);
+  };
+  const deleteHandler = (id: any) => {
+    setProductId(id);
+    setOpenDeleteModal(true);
+  };
   return (
     <>
       <TableWrapper>
@@ -44,43 +55,53 @@ function Orders() {
             </Table.TR>
           </Table.Head>
           <Table.Body>
-            {orders?.map(
-              (order: any) => {
-                return (
-                  <Table.TR key ={order.id}>
-                    <Table.TD>{order.id}</Table.TD>
-                    <Table.TD>{order.customerName}</Table.TD>
-                    <Table.TD>{order.customerPhone}</Table.TD>
-                    <Table.TD>${order.total}</Table.TD>
-                    <Table.TD>Paid</Table.TD>
-                    <Table.TD>
-                      <IconContainer onClick={() => viewHandler()}>
-                        {ACTION_ICONS.VIEW}
-                      </IconContainer>
-                      {/* <IconContainer fillColor = "red" onClick={() => deleteHandler()}>
-                        {ACTION_ICONS.DELETE}
-                      </IconContainer> */}
-                    </Table.TD>
-                  </Table.TR>
-                );
-              }
-            )}
+            {orders?.map((order: any) => {
+              return (
+                <Table.TR key={order.id}>
+                  <Table.TD>{order.id}</Table.TD>
+                  <Table.TD>{order.customerName}</Table.TD>
+                  <Table.TD>{order.customerPhone}</Table.TD>
+                  <Table.TD>${order.amount}</Table.TD>
+                  <Table.TD>Paid</Table.TD>
+                  <Table.TD>
+                    <IconContainer onClick={() => viewHandler(order.id)}>
+                      {ACTION_ICONS.VIEW}
+                    </IconContainer>
+                    <IconContainer
+                      fillColor="red"
+                      onClick={() => deleteHandler(order.id)}
+                    >
+                      {ACTION_ICONS.DELETE}
+                    </IconContainer>
+                  </Table.TD>
+                </Table.TR>
+              );
+            })}
           </Table.Body>
         </Table>
         {orders.length === 0 && <NoData message="Currently No Orders !!" />}
       </TableWrapper>
+      <Modal
+        open={openViewModal}
+        modalType={ModalList.OrderDetails}
+        setShowModal={setOpenViewModal}
+        orderId={orderId}
+        title="Order Details"
+      />
+      <Modal
+        open={openDeleteModal}
+        modalType={ModalList.DeleteOrderModal}
+        setShowModal={setOpenDeleteModal}
+        onConfirm={() => {
+          dispatch(deleteOrder(productId));
+          setOpenDeleteModal(false);
+        }}
+        header={`Are you sure you want to delete the order`}
+      />
     </>
   );
 }
 export default Orders;
-
-const Description = styled.span`
-  display: inline-block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 150px;
-`;
 
 const Container = styled.div`
   display: flex;

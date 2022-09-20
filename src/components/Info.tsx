@@ -5,17 +5,17 @@ import { cardShadow, hoverEffect, colors } from "../utils";
 import { useAppSelector } from "../redux/store";
 function Info() {
   const products = useAppSelector((state) => state.productState.products);
-  // const orders = useAppSelector((state) => state.orderState.products);
+  const orders = useAppSelector((state) => state.orderState.orders);
 
   return (
     <InfoCard>
       <Card>
         <CardContent>
           <Row>
-            {/* <Digit>{orders.length}</Digit> */}
+            <Digit>{orders.length}</Digit>
             <InfoContainer>
               <Title>Orders</Title>
-              {/* <SubTitle>In top 20%</SubTitle> */}
+              <SubTitle>In top 20%</SubTitle>
             </InfoContainer>
           </Row>
         </CardContent>

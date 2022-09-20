@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../redux/store";
 import products from "../../mockdata/products.json";
 
-type Product = {
+export type Product = {
   id: number;
   name: string;
   sku: string;
@@ -36,14 +36,26 @@ export const productSlice = createSlice({
         products: [payload, ...state.products],
       } as any),
 
+    editProduct: (state, { payload }) =>
+      ({
+        ...state,
+        products: state.products.map((product) => {
+          if (payload.productId === product.id) {
+            product = { ...product, ...payload.data };
+          }
+          return product;
+        }),
+      } as any),
+
     deleteProduct: (state, { payload }) => ({
       ...state,
-      products: state.products.filter((product) => product.id !== payload.id),
+      products: state.products.filter((product) => product.id !== payload),
     }),
   },
 });
 
-export const { addNewProduct, deleteProduct } = productSlice.actions;
+export const { addNewProduct, deleteProduct, editProduct } =
+  productSlice.actions;
 
 export const getProductsState = (state: RootState) => state;
 

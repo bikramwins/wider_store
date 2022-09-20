@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { colors } from "../../utils";
 import Input, { MoneyInput, TextAreaInput } from "../Input";
-import { addNewProduct } from "./productSlice";
-import { useNavigate } from "react-router-dom";
+import { addNewProduct, editProduct } from "../products/productSlice";
+
 export const Button = styled.button`
   background: ${colors.themeColor};
   border: none;
@@ -18,6 +18,25 @@ export const Button = styled.button`
   width: 100%;
 `;
 
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+`;
+
+const StickyBottomContainer = styled.div`
+  padding: 20px 0 40px 0;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  background: white;
+`;
+
+const InputContainer = styled.div`
+  margin: 20px 0;
+`;
+
 const INITIAL_PRODUCT = {
   name: "",
   sku: "",
@@ -26,8 +45,15 @@ const INITIAL_PRODUCT = {
   imageUrl: "",
 };
 
-const AddNewProduct = ({ close }: { close: Function }) => {
+const AddNewProduct = ({
+  close,
+  productId,
+}: {
+  close: Function;
+  productId?: any;
+}) => {
   const dispatch = useAppDispatch();
+  const products: any = useAppSelector((state) => state.productState.products);
   const [productDetails, setProductDetails] = useState(INITIAL_PRODUCT);
 
   const onChangeHandler = (event: any) => {
@@ -35,23 +61,27 @@ const AddNewProduct = ({ close }: { close: Function }) => {
     setProductDetails((old) => ({ ...old, [name]: value }));
   };
 
+  useEffect(() => {
+    if (productId) {
+      setProductDetails(
+        products.find((product: any) => product.id === productId)
+      );
+    }
+  }, [productId]);
+
   const onSubmitHandler = (e: any) => {
     e.preventDefault();
-    dispatch(addNewProduct(productDetails));
+    if (productId) {
+      dispatch(editProduct({ productId, data: productDetails }));
+      return close;
+    }
+    dispatch(addNewProduct({ id: Date.now(), ...productDetails }));
     close();
   };
 
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        position: "relative",
-      }}
-    >
-      <div style={{ margin: "20px 0" }}>
+    <Form onSubmit={onSubmitHandler}>
+      <InputContainer>
         <Input
           required
           placeholder="Product Name"
@@ -61,8 +91,8 @@ const AddNewProduct = ({ close }: { close: Function }) => {
           margin="30px 0 0 0"
           onChange={onChangeHandler}
         />
-      </div>
-      <div style={{ margin: "20px 0" }}>
+      </InputContainer>
+      <InputContainer>
         <Input
           name="sku"
           value={productDetails.sku}
@@ -72,8 +102,8 @@ const AddNewProduct = ({ close }: { close: Function }) => {
           placeholder="SKU"
           onChange={onChangeHandler}
         />
-      </div>
-      <div style={{ margin: "20px 0" }}>
+      </InputContainer>
+      <InputContainer>
         <MoneyInput
           name="price"
           value={productDetails.price}
@@ -84,8 +114,8 @@ const AddNewProduct = ({ close }: { close: Function }) => {
           onChange={onChangeHandler}
           type="number"
         />
-      </div>
-      <div style={{ margin: "20px 0" }}>
+      </InputContainer>
+      <InputContainer>
         <TextAreaInput
           required
           name="description"
@@ -95,8 +125,8 @@ const AddNewProduct = ({ close }: { close: Function }) => {
           placeholder="description"
           onChange={onChangeHandler}
         />
-      </div>
-      <div style={{ margin: "20px 0" }}>
+      </InputContainer>
+      <InputContainer>
         <Input
           name="imageUrl"
           value={productDetails.imageUrl}
@@ -106,20 +136,14 @@ const AddNewProduct = ({ close }: { close: Function }) => {
           placeholder="Image Url"
           onChange={onChangeHandler}
         />
-      </div>
+      </InputContainer>
 
-      <div
-        style={{
-          padding: "20px 0 40px 0",
-          position: "sticky",
-          bottom: "0",
-          left: "0",
-          background: "white",
-        }}
-      >
-        <Button type="submit">Add New Product</Button>
-      </div>
-    </form>
+      <StickyBottomContainer>
+        <Button type="submit">
+          {productId ? "Save Details" : "Add New Product"}
+        </Button>
+      </StickyBottomContainer>
+    </Form>
   );
 };
 

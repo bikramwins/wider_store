@@ -7,7 +7,7 @@ export const colors = Object.freeze({
   grey4: "#BDBDBD",
   grey5: "#E0E0E0",
   grey6: "#F2F2F2",
-  white:"white"
+  white: "white",
 });
 
 export const hoverEffect = `rgba(0, 0, 0, 0.56) 0px 22px 70px 4px`;

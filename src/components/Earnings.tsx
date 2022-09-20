@@ -5,7 +5,7 @@ import { colors, hoverEffect } from "../utils";
 import { useAppSelector } from "../redux/store";
 
 function TotalOrdersCard() {
-  const products = useAppSelector((state) => state.productState.products);
+  const orders = useAppSelector((state) => state.orderState.orders);
   return (
     <EarningsCard>
       <CardContent>
@@ -13,7 +13,9 @@ function TotalOrdersCard() {
           <IoStatsChart />
         </Chart>
         <EarningsText>Total Amount</EarningsText>
-        <Earning>$7,890</Earning>
+        <Earning>
+          ${orders.reduce((acc: number, item: any) => acc + item.amount, 0)}
+        </Earning>
         <EarningsIncrease>+ 10% since last month</EarningsIncrease>
       </CardContent>
     </EarningsCard>
